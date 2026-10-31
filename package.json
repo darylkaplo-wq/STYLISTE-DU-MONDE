@@ -1,0 +1,14 @@
+{
+  "name": "styliste-du-monde",
+  "version": "0.3.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22.5" },
+  "scripts": {
+    "start": "node --no-warnings server/start.js",
+    "test": "node --no-warnings --test tests/api.test.js tests/inspiration.test.js tests/front.test.js",
+    "seed": "node --no-warnings server/seed.js",
+    "backup": "node --no-warnings server/backup.js",
+    "import": "node --no-warnings server/cli.js"
+  }
+}
