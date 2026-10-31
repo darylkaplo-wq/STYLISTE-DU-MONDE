@@ -1,35 +1,25 @@
 # Styliste du Monde
 
-Application web de stylisme et de découverte de mode multiculturelle : création de tenues, recommandations de la styliste, comptes utilisateurs, tenues sauvegardées, inspiration et catalogue marchand importable.
+Projet d'application web de stylisme, création de tenues et découverte de mode multiculturelle.
 
-## État du dépôt
+## État vérifié au 31 octobre 2026
 
-Ce dépôt accueille la version de livraison du 31 octobre 2026. Le projet source utilise Node.js 22.5+, SQLite (node:sqlite) et des fichiers locaux. Il ne doit pas être présenté comme déjà migré vers Cloudflare Workers/D1/R2.
+Le dépôt GitHub est créé et contient le dossier de préparation, les consignes de déploiement et la stratégie de migration. **Le code applicatif complet n'a pas encore été importé dans ce dépôt** : il se trouve dans l'archive de livraison conservée dans la bibliothèque du projet.
 
-## Démarrage local
+Le code source de cette archive a été exécuté séparément sous Node.js 22.16.0 : 29 tests sur 29 réussis. Un test local de démarrage a également renvoyé HTTP 200 pour `/`, `/api/products?limit=2` et `/api/facets`. Ces résultats ne sont pas encore un résultat CI de ce dépôt.
 
-    cp .env.example .env
-    npm install
-    npm run seed
-    npm start
+## Architecture source actuelle
 
-Puis ouvrir http://localhost:3000.
+- Node.js 22.5+ et `node:sqlite`.
+- Base SQLite et médias stockés sur disque persistant.
+- Catalogue de démonstration : 97 fiches sans prix, stock, images ni liens marchands validés.
 
-## Tests
+## Architecture cible
 
-    npm test
+Cloudflare Workers pour l'API, D1 pour les données relationnelles et R2 pour les médias. Cette migration nécessite un portage réel : le code source actuel dépend de modules Node (`node:sqlite`, `node:http`, `node:fs`) et ne peut pas être déployé tel quel comme Worker.
 
-## Documentation
+## Prochaines étapes
 
-- docs/PLAN.md — périmètre et plan du projet
-- docs/DEPLOIEMENT.md — lancement et déploiement
-- docs/DECISION-HEBERGEMENT.md — choix d'hébergement et migration nécessaire
-- docs/AVANT-OUVERTURE-PUBLIQUE.md — contrôles avant lancement public
-- docs/FOURNISSEURS-CATALOGUE-ET-IMAGES.md — sources de catalogue et règles d'utilisation des images
-- docs/AUDIT-LANCEMENT-2026-10-31.md — audit de livraison
+Consulter `docs/ROADMAP-16-ETAPES.md` et `docs/DECISION-HEBERGEMENT.md`. Ne pas considérer le produit comme lancé publiquement avant l'import du code, la migration ou le choix d'un hébergeur Node persistant, les tests de production, la configuration des secrets, du domaine et les validations légales.
 
-## Avant une ouverture publique
-
-Compléter les informations légales, vérifier les droits sur les images et flux marchands, configurer les secrets hors du dépôt, auditer l'authentification et effectuer la migration de la base et des médias vers un stockage persistant.
-
-Ne jamais committer le fichier .env, des mots de passe, des clés API ou des jetons.
+Ne jamais committer `.env`, des mots de passe, des clés API ou des jetons.
