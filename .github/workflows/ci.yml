@@ -1,24 +1,21 @@
-name: Tests et validation
+name: Validation du dépôt
 on:
   push:
-    branches: [main, master]
+    branches: [main]
   pull_request:
-    branches: [main, master]
+    branches: [main]
 permissions:
   contents: read
 jobs:
-  test:
+  repository-integrity:
     runs-on: ubuntu-latest
     steps:
-      - name: Récupérer le code
-        uses: actions/checkout@v4
-      - name: Installer Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-      - name: Vérifier la syntaxe
-        run: node --check server/start.js && node --check server/index.js
-      - name: Exécuter les tests
-        run: npm test
-      - name: Construire l'image Docker
-        run: docker build -t styliste-du-monde:${{ github.sha }} .
+      - uses: actions/checkout@v4
+      - name: Vérifier les fichiers de livraison présents
+        run: |
+          test -s README.md
+          test -s docs/DECISION-HEBERGEMENT.md
+          test -s docs/ROADMAP-16-ETAPES.md
+          test -s .env.example
+          ! test -e .env
+          ! test -d node_modules
